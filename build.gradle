@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle:build-scan-plugin:1.6"
+    }
+}
+
+//
+// Subproject specific definitions.
+//
+subprojects {
+    apply plugin: 'groovy'
+    apply plugin: 'codenarc'
+
+    codenarc {
+        toolVersion = '0.26.0'
+        configFile = file('../config/codenarc/rules-test.groovy')
+        reportFormat = 'console'
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+task clean {
+    delete "$rootProject.buildDir"
+}
+
+
+project(':sub-module') {
+    dependencies {
+
+        // Testing
+        testCompile 'org.codehaus.groovy:groovy-all:2.4.9'
+        testCompile 'org.spockframework:spock-core:1.1-groovy-2.4-rc-3'
+    }
+}

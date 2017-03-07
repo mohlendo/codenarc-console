@@ -1,0 +1,2 @@
+rootProject.name = 'codenarc-console'
+include 'sub-module'
